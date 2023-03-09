@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Activity Tracker</title>
+    <link rel="icon" href="./img/Hero-Vired-Favicon.webp" type="image/webp" sizes="32x32" />
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    <!-- <script src="script-UpdateCSV.js"></script> -->
+</head>
+
+<body>
+
+    <div class="topnav">
+        <div class="topnav-right">
+            <a id="homeButton" href="index.html"><img id="homeIcon" src="./img/Home.png" title="Back to Home"
+                    style="height:28px; width:28px;"></a>
+            <a id="updateCSVDataButton" onclick="updateCSVData('./Data/FSD02.csv')"><img id="uploadSCVIcon"
+                    src="./img/Upload.png" title="Upload data in CSV files" style="height:25px; width:25px;"></a>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <img src="./img/HVMaster-Logo@250x-8.png" style="width: 250px;" />
+        <!-- <p>GitHub Activity Tracker</p> -->
+        <a onclick="getBatchDetails('./Data/FSD02.csv')">FSD Batch - 02</a>
+        <a onclick="getBatchDetails('FSD03')">FSD Batch - 03</a>
+        <a onclick="getBatchDetails('FSD-04')">FSD Batch - 04</a>
+        <a onclick="getBatchDetails('FSD-05')">FSD Batch - 05</a>
+        <a onclick="getBatchDetails('./Data/FSD06.csv')">FSD Batch - 06</a>
+        <a onclick="getBatchDetails('./Data/FSD07.csv')">FSD Batch - 07</a>
+        <a onclick="getBatchDetails('./Data/FSD08.csv')">FSD Batch - 08</a>
+        <a onclick="getBatchDetails('FSD-09')">FSD Batch - 09</a>
+        <a onclick="getBatchDetails('AadityaDevOpsMorningBatch')">Aaditya DevOps Morning Batch</a>
+        <a onclick="getBatchDetails('AadityaDevOpsAfternoonBatch')">Aaditya DevOps Afternoon Batch</a>
+        <a onclick="getBatchDetails('AadityaFSDMorningBatch')">Aaditya FSD Morning Batch</a>
+        <a onclick="getBatchDetails('AadityaFSDAfternoonBatch')">Aaditya FSD Afternoon Batch</a>
+    </div>
+
+    <div class="homeMessage" id="homeMessage">
+        <p id="title">GitHub Activity Tracker!</p>
+        <p id="subtitle" style="font-size: 15px;">Please select the Batch from menu and track Learner's Activity on
+            GitHub.</p>
+        <!-- <p id="CSVUpdatedDate" style="font-size: 12px; color: red;">&nbsp;CSV Files last updated on : 8 Mar 2023</p> -->
+    </div>
+    <div class="outputDiv" id="userDetails">
+        <div class="batchDetails">
+            <p id="fileName" class="tableTitle">Batch Name: </p>
+            <p id="CSVUpdatedDate" class="tableSubTitle">CSV Files last updated on :</p>
+        </div>
+
+        <table class="resultTable" id="userResultTable">
+            <thead>
+                <tr>
+                    <td style="width: 26%; border-radius: 5px 0 0 0">
+                        <h4>Learner Name</h4>
+                    </td>
+                    <td style="width: 26%; border-radius: 0 0 0 0">
+                        <h4>GitHub UserName</h4>
+                    </td>
+                    <td style="width: 16%; border-radius: 0 0 0 0">
+                        <h4>Total Repositories</h4>
+                    </td>
+                    <td style="width: 16%; border-radius: 0 0 0 0">
+                        <h4>Last Commit Date</h4>
+                    </td>
+                    <td style="width: 16%; border-radius: 0 5px 0 0">
+                        <h4>Total Push Counts</h4>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div class="outputDiv" id="repoDetails">
+        <div class="batchDetails">
+            <p id="batchName" class="tableTitle">Batch Name:</p>
+            <p class="tableSubTitle">&nbsp;</p>
+        </div>
+        <table class="resultTable" id="repoResultTable">
+            <thead>
+                <tr>
+                    <td style="width: 26%; border-radius: 5px 0 0 0">
+                        <h4>Learner Name</h4>
+                    </td>
+                    <td style="width: 26%; border-radius: 0 0 0 0">
+                        <h4>GitHub UserName</h4>
+                    </td>
+                    <td style="width: 16%; border-radius: 0 0 0 0">
+                        <h4>Total Repositories</h4>
+                    </td>
+                    <td style="width: 16%; border-radius: 0 0 0 0">
+                        <h4>Last Commit Date</h4>
+                    </td>
+                    <td style="width: 16%; border-radius: 0 5px 0 0">
+                        <h4>Total Push Counts</h4>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</body>
+
+</html>
