@@ -1,5 +1,8 @@
 var totalPushCountsPerUser = 0;
 var totalPushCountsPerRepo = 0;
+var currentGitUserName = "";
+var currentFileName = "";
+var currentBatchData = new Array();
 
 function getBatchDetails(fileName) {
     setDIVVisibility("userDetails", fileName);
@@ -12,8 +15,8 @@ function getBatchDetails(fileName) {
 
             for (let i = 0; i < dataINArray.length; i++) {
                 let splitedArray = dataINArray[i].split(',');
-                addRowTOResultTable("userResultTable", splitedArray);
-                calculateAggregateData(splitedArray[1], i);
+                addRowTOResultTable("userResultTable", splitedArray, i);
+                calculateAggregateData(splitedArray[0], splitedArray[1], i);
             }
         }
     };
@@ -106,6 +109,7 @@ function setDIVVisibility(displayDIVID, fileName) {
     var objectUploadCSV = document.getElementById('updateCSVDataButton');
     var objectFileName = document.getElementById('fileName');
     var objectCSVUpdatedDate = document.getElementById('CSVUpdatedDate');
+    currentFileName = fileName;
 
     if (displayDIVID == "userDetails") {
         objectUserDIV.style.visibility = "visible";
@@ -160,14 +164,17 @@ function addRowTOResultTable(resultTableID, columnData, index) {
     }
 }
 
-function calculateAggregateData(gitUserName, index) {
+function calculateAggregateData(learnerName, gitUserName, index) {
     var totalPushCount = 0;
     var totalRepoCount = 0;
+    var currentUserData = new Array();
     var objectTotalPushCount = document.getElementById('totalPushCount' + index);
     var objectRecentPushDate = document.getElementById('recentCommitDate' + index);
     var objectTotalRepoCount = document.getElementById('repoCount' + index);
 
-    gitUserName = gitUserName.trim();
+    currentUserData.push(learnerName);
+    currentUserData.push(gitUserName);
+    currentGitUserName = gitUserName.trim();
     var url = `https://api.github.com/users/${gitUserName}/repos`;
 
     var xhr = new XMLHttpRequest();
@@ -184,17 +191,22 @@ function calculateAggregateData(gitUserName, index) {
 
             //Display total Push-Count
             for (let i = 0; i < outputData.length; i++) {
-                totalRepoCount++; 
+                totalRepoCount++;
                 fetchRepoDetails(outputData[i].commits_url, i);
                 totalPushCount += totalPushCountsPerRepo;
             }
-            console.log(gitUserName = " - Total Rpos: " + totalRepoCount + "recent Push: " + recentPushDate + "Total Push counts: " + totalPushCount)
+            currentUserData.push(totalRepoCount);
+            currentUserData.push(displaytDateOnly(recentPushDate));
+            currentUserData.push(totalPushCount);
+            currentBatchData.push(currentUserData);
+
+            console.log(currentGitUserName = " - Total Rpos: " + totalRepoCount + "recent Push: " + displaytDateOnly(recentPushDate) + "Total Push counts: " + totalPushCount);
             objectTotalPushCount.innerHTML = totalPushCount;
-            objectRecentPushDate.innerHTML = recentPushDate;
+            objectRecentPushDate.innerHTML = displaytDateOnly(recentPushDate);
             objectTotalRepoCount.innerHTML = totalRepoCount;
 
         } else if (this.status == 404) {
-            alert(`Inalid User Name! - ${gitUserName}`);
+            alert(`Inalid User Name! - ${currentGitUserName}`);
         } else if (this.status == 403) {
             alert(`API access limit is exceeded!`);
         }
@@ -221,6 +233,7 @@ function fetchRepoDetails(stringCommitURL, index) {
                 pushCounts++;
             });
             totalPushCountsPerRepo = pushCounts;
+            console.log("fetchRepo: " + pushCounts);
         } else if (this.status == 404) {
             alert(`Inalid Repository!`);
         } else if (this.status == 403) {
@@ -228,5 +241,10 @@ function fetchRepoDetails(stringCommitURL, index) {
         }
     }
     xhrRepoData.send();
-    console.log("fetchRepo: " + pushCounts);
+
+}
+
+function updateCSVData(fileName){
+    console.log("Current File Name: " + currentFileName);
+    console.log(currentBatchData);
 }
